@@ -3,11 +3,11 @@ export const environment = {
 
 
   firebaseConfig :{
-    apiKey: "AIzaSyCLFAe66gf7rIdSEaQjFNbulhSDxdgoxYs",
-    authDomain: "asistencia-admin-app.firebaseapp.com",
-    projectId: "asistencia-admin-app",
-    storageBucket: "asistencia-admin-app.appspot.com",
-    messagingSenderId: "49241134477",
-    appId: "1:49241134477:web:97013f9412b894376099c4"
+    apiKey: "AIzaSyAn7vtGZNIGx2qr1hb_efXgNrDVpxnoWXE",
+    authDomain: "asistemax-c5e90.firebaseapp.com",
+    projectId: "asistemax-c5e90",
+    storageBucket: "asistemax-c5e90.appspot.com",
+    messagingSenderId: "903098480037",
+    appId: "1:903098480037:web:5747f9dd4715ca6ec2a44c"
   }
 };

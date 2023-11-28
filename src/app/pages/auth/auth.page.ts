@@ -40,15 +40,14 @@ export class AuthPage implements OnInit {
     if (this.form.valid) {
       const loading = await this.utilsSvc.loading();
       await loading.present();
-
-      this.firebaseSvc
-        .signIn(this.form.value as User)
+  
+      this.firebaseSvc.signIn(this.form.value as User)
         .then((res) => {
-          this.getUserInfo(res.user.uid);
+          this.redirectBasedOnUserType(res.user);
         })
         .catch((error) => {
           console.log(error);
-
+  
           this.utilsSvc.presentToast({
             message: error.message,
             duration: 2500,
@@ -61,7 +60,7 @@ export class AuthPage implements OnInit {
           loading.dismiss();
         });
     }
-  }
+  }  
 
   async getUserInfo(uid: string) {
     if (this.form.valid) {
