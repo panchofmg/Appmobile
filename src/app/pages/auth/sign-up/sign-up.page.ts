@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -21,7 +22,8 @@ export class SignUpPage implements OnInit {
 
   constructor(
     private firebaseSvc: FirebaseService,
-    private utilsSvc: UtilsService
+    private utilsSvc: UtilsService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -69,7 +71,14 @@ export class SignUpPage implements OnInit {
         .setDocument(path, this.form.value)
         .then(async (res) => {
           this.utilsSvc.saveInLocalStorage('user', this.form.value);
-          this.utilsSvc.routerLink('/inicio');
+
+          // Utiliza Router para navegar a las rutas
+          if (this.form.value.tipoUsuario === 'profesor') {
+            this.router.navigate(['/profesor']); // Reemplaza 'vista_profesor' con tu ruta correcta
+          } else {
+            this.router.navigate(['/inicio']);
+          }
+
           this.form.reset();
         })
         .catch((error) => {
