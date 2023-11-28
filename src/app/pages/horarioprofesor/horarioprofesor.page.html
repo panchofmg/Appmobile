@@ -19,16 +19,19 @@
     </ion-list>
   </ion-list>
 
-  <!-- Lista de asignaturas -->
   <ion-list *ngIf="asignaturasPorDia.length > 0">
     <ion-list-header>
       {{ diaSeleccionado }}
     </ion-list-header>
-    <ion-item *ngFor="let asignatura of asignaturasPorDia" (click)="navegarAAsignaturaProfesor()">
+    <ion-item *ngFor="let asignatura of asignaturasPorDia" (click)="navegarAAsignaturaProfesor(asignatura)">
       <ion-label>
         {{ asignatura.horaInicio }} a {{ asignatura.horaTermino }} <br>
         {{ asignatura.nombre }}
       </ion-label>
+      <!-- Muestra el código QR si está disponible -->
+      <ion-avatar slot="end" *ngIf="asignatura.generatedQRCode">
+        <img [src]="asignatura.generatedQRCode" alt="Código QR generado" />
+      </ion-avatar>
     </ion-item>
   </ion-list>
 
