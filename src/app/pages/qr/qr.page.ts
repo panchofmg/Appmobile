@@ -31,23 +31,31 @@ export class QRPage implements OnInit {
   ngOnInit() {}
 
   // Función para generar el código QR
-  generateQRCode() {
-    QRCode.toDataURL(this.qrData, async (err, url) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      this.generatedQRCode = url;
+  async generateQRCode() {
+  QRCode.toDataURL(this.qrData, async (err, url) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    this.generatedQRCode = url;
 
-      // Obtén el UID del usuario desde el localStorage
-      const uidUsuario = this.utilsService.getFromLocalStorage('user')?.uid;
+    // Obtén el UID del usuario desde el localStorage
+    const uidUsuario = this.utilsService.getFromLocalStorage('user')?.uid;
 
-      if (uidUsuario) {
+    if (uidUsuario) {
+      // Verifica si la asignatura ya está registrada para el usuario
+      const asignaturaExists = await this.firebaseService.checkAsignaturaExists(uidUsuario, JSON.parse(this.qrData));
+
+      if (!asignaturaExists) {
         // Guarda la asignatura y vincula al profesor en Firestore
         await this.firebaseService.addAsignaturaToUsuario(uidUsuario, JSON.parse(this.qrData));
       } else {
-        console.error('No se pudo obtener el UID del usuario desde el localStorage.');
+        console.warn('La asignatura ya está registrada para el usuario.');
+        // Aquí podrías mostrar un mensaje al usuario o realizar alguna otra acción
       }
-    });
-  }
+    } else {
+      console.error('No se pudo obtener el UID del usuario desde el localStorage.');
+    }
+  });
+}
 }

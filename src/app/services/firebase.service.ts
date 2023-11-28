@@ -17,12 +17,15 @@ import {
   DocumentSnapshot,
   collectionData,
   query,
+  addDoc,
+  collection,
+  updateDoc,
+  QuerySnapshot,
+  where,
+  getDocs,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { UtilsService } from './utils.service';
-import { addDoc, collection, updateDoc } from 'firebase/firestore';
-import { AddUpdateAssistComponent } from '../shared/components/add-update-assist/add-update-assist.component';
-import { asignatura } from '../models/asignaturas.models';
 
 @Injectable({
   providedIn: 'root',
@@ -32,40 +35,32 @@ export class FirebaseService {
   firestore = inject(AngularFirestore);
   utilSvc = inject(UtilsService);
 
-  // Autenticar \\
-
   getAuth() {
     return getAuth();
   }
 
-  // Iniciar sesión
   signIn(user: User) {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password);
   }
 
-  // Cerrar Sesión
   signOut() {
     getAuth().signOut();
     localStorage.removeItem('user');
     this.utilSvc.routerLink('/auth');
   }
 
-  // Registrarse
   signUp(user: User) {
     return createUserWithEmailAndPassword(getAuth(), user.email, user.password);
   }
 
-  // Actualizar perfil de usuario
   updateUser(displayName: string) {
     return updateProfile(getAuth().currentUser, { displayName });
   }
 
-  // Enviar correo electrónico para restablecer contraseña
   sendRecoveryEmail(email: string) {
     return sendPasswordResetEmail(getAuth(), email);
   }
 
-  // Obtener el tipo de usuario desde Firestore
   getUserTipoUsuario(uid: string): Observable<string> {
     const userDocRef = doc(getFirestore(), `users/${uid}`);
     return new Observable<string>((observer) => {
@@ -85,50 +80,61 @@ export class FirebaseService {
     });
   }
 
-  // Base de datos \\
-
-  // Setear un Documento
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
   }
 
-  // Obtener un documento
   async getDocument(path: string) {
     return (await getDoc(doc(getFirestore(), path))).data();
   }
 
-  // asistencia
   addAsistencia(path: string, data: any) {
     return addDoc(collection(getFirestore(), path), data);
   }
 
-  // Actualizar un Documento
   updateDocument(path: string, data: any) {
     return updateDoc(doc(getFirestore(), path), data);
   }
 
-  // Mostrar Asignaturas
   getCollectionData(path: string, collectionQuery?: any) {
     const ref = collection(getFirestore(), path);
     return collectionData(query(ref, collectionQuery), { idField: 'id' });
   }
-  // x
+
   getAsistencia(path: string, collectionQuery?: any) {
     const ref = collection(getFirestore(), path);
     return collectionData(ref, collectionQuery);
   }
 
-  
+  async checkAsignaturaExists(uidUsuario: string, asignaturaData: any): Promise<boolean> {
+    const asignaturasCollectionRef = collection(doc(getFirestore(), 'users', uidUsuario), 'asignaturas');
+    const q = query(asignaturasCollectionRef, where('nom_asignatura', '==', asignaturaData.nom_asignatura));
+
+    try {
+      const querySnapshot: QuerySnapshot<any> = await getDocs(q);
+      return !querySnapshot.empty;
+    } catch (error) {
+      console.error('Error al comprobar la existencia de la asignatura:', error);
+      throw error;
+    }
+  }
+
   async addAsignaturaToUsuario(uidUsuario: string, asignaturaData: any): Promise<void> {
     const usuarioDocRef = doc(getFirestore(), 'users', uidUsuario);
     const asignaturasCollectionRef = collection(usuarioDocRef, 'asignaturas');
 
-    try {
-      const asignaturaDocRef = await addDoc(asignaturasCollectionRef, asignaturaData);
-      console.log('Asignatura agregada al usuario con ID:', asignaturaDocRef.id);
-    } catch (error) {
-      console.error('Error al agregar asignatura al usuario:', error);
-      throw error;
+    const asignaturaExists = await this.checkAsignaturaExists(uidUsuario, asignaturaData);
+
+    if (!asignaturaExists) {
+      try {
+        const asignaturaDocRef = await addDoc(asignaturasCollectionRef, asignaturaData);
+        console.log('Asignatura agregada al usuario con ID:', asignaturaDocRef.id);
+      } catch (error) {
+        console.error('Error al agregar asignatura al usuario:', error);
+        throw error;
+      }
+    } else {
+      console.log('La asignatura ya está registrada para este usuario.');
     }
   }
 }
