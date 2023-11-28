@@ -117,4 +117,24 @@ export class FirebaseService {
     const ref = collection(getFirestore(), path);
     return collectionData(ref, collectionQuery);
   }
+
+  
+  async addAsignaturaToProfesor(uidProfesor: string, asignaturaData: any): Promise<void> {
+    const profesorDocRef = doc(getFirestore(), 'users', uidProfesor);
+    const asignaturasCollectionRef = collection(profesorDocRef, 'asignaturas');
+
+    try {
+      const asignaturaDocRef = await addDoc(asignaturasCollectionRef, asignaturaData);
+      console.log('Asignatura agregada al profesor con ID:', asignaturaDocRef.id);
+    } catch (error) {
+      console.error('Error al agregar asignatura al profesor:', error);
+      throw error;
+    }
+  }
+
+
+
+
+
+
 }
