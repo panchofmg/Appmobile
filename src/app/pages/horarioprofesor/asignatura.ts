@@ -5,6 +5,8 @@ export class Asignatura {
     horaTermino: string;
     seccion: string;
     sede: string;
+    profesor?: string;
+    generatedQRCode?: string;
   
     constructor(
       nombre: string,
@@ -12,7 +14,9 @@ export class Asignatura {
       horaInicio: string,
       horaTermino: string,
       seccion: string,
-      sede: string
+      sede: string,
+      profesor?: string,
+
     ) {
       this.nombre = nombre;
       this.sala = sala;
@@ -20,6 +24,7 @@ export class Asignatura {
       this.horaTermino = horaTermino;
       this.seccion = seccion;
       this.sede = sede;
+      this.profesor = profesor;
     }
   }
   
