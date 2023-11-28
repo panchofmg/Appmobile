@@ -48,7 +48,7 @@ export class EscanearPage implements OnInit {
         console.log('Usuario registrado en la asignatura correctamente.');
   
         // Guardar la ubicación y la hora en el LocalStorage
-        this.saveLocationAndTime();
+        this.saveLocationAndTime(asignaturaData);
   
       } catch (error) {
         console.error('Error al decodificar el JSON del código QR:', error);
@@ -58,7 +58,7 @@ export class EscanearPage implements OnInit {
     });
   }
 
-  saveLocationAndTime() {
+  saveLocationAndTime(asignaturaData: any) {
     // Obtener la ubicación del dispositivo
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -78,6 +78,9 @@ export class EscanearPage implements OnInit {
 
         // Guardar en el LocalStorage
         this.utilsService.saveInLocalStorage('locationAndTime', locationAndTime);
+
+        // Guardar en Firebase
+        this.firebaseService.saveLocationAndTimeInFirebase(asignaturaData, locationAndTime);
       },
       (error) => {
         console.error('Error al obtener la ubicación:', error);
