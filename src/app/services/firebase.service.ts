@@ -119,6 +119,19 @@ export class FirebaseService {
     }
   }
 
+  async saveLocationAndTimeInFirebase(asignaturaData: any, locationAndTime: any): Promise<void> {
+    const path = `ubicaciones/${asignaturaData.uidUsuario}`;
+  
+    try {
+      // Crear un documento con la información en la colección 'ubicaciones'
+      await this.setDocument(path, locationAndTime);
+      console.log('Ubicación y hora guardadas en Firebase correctamente.');
+    } catch (error) {
+      console.error('Error al guardar ubicación y hora en Firebase:', error);
+    }
+  }
+  
+
   async addAsignaturaToUsuario(uidUsuario: string, asignaturaData: any): Promise<void> {
     const usuarioDocRef = doc(getFirestore(), 'users', uidUsuario);
     const asignaturasCollectionRef = collection(usuarioDocRef, 'asignaturas');
