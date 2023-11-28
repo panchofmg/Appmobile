@@ -43,6 +43,8 @@ export class AuthPage implements OnInit {
   
       this.firebaseSvc.signIn(this.form.value as User)
         .then((res) => {
+          // Guarda la información de la sesión en el localStorage
+          localStorage.setItem('user', JSON.stringify(res.user));
           this.redirectBasedOnUserType(res.user);
         })
         .catch((error) => {
@@ -60,7 +62,8 @@ export class AuthPage implements OnInit {
           loading.dismiss();
         });
     }
-  }  
+  }
+  
 
   async getUserInfo(uid: string) {
     if (this.form.valid) {
