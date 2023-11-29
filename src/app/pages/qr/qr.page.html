@@ -1,19 +1,38 @@
 <style>
-  /* Añade estilos personalizados si es necesario /
+  /* Añade estilos personalizados si es necesario */
   .center-screen {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    / Establece la altura mínima de la vista de la ventana al 100% del viewport height /
+    /* Establece la altura mínima de la vista de la ventana al 100% del viewport height */
   }
 
-  / Estilo adicional para ocultar la imagen */
+  .flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Estilo adicional para ocultar la imagen */
   .hidden {
     display: none;
   }
 </style>
 
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profesor"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">
+      Horario del Profesor
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <div class="container-fluid center-screen" id="imageContainer">
-  <img [src]="generatedQRCode" alt="Código QR generado" id="imageToDisplay" />
+  <div class="center-screen flex-container">
+    <img [src]="generatedQRCode" alt="Código QR generado" id="imageToDisplay" />
+  </div>
 </div>

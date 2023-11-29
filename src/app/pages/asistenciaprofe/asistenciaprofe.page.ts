@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
 import { Horario } from './horario';
 import { Router } from '@angular/router'; // Asegúrate de importar Router
-
+import { FirebaseService } from 'src/app/services/firebase.service';
 @Component({
   selector: 'app-asistenciaprofe',
   templateUrl: './asistenciaprofe.page.html',
   styleUrls: ['./asistenciaprofe.page.scss'],
 })
 export class AsistenciaprofePage {
-  diasSemana = ['L', 'M', 'X', 'J', 'V', 'S'];
-  diaSeleccionado: string = '';
-  asignaturasPorDia: any[] = [];
+  usuariosAlumnos: any[] = [];
 
-  constructor(private router: Router) {} // Inyecta el servicio Router en el constructor
+  constructor(private firebaseService: FirebaseService) {}
 
-  mostrarAsignaturas(dia: string) {
-    this.diaSeleccionado = dia;
-
-    // Accede a las asignaturas correspondientes al día seleccionado desde la estructura de datos Horario.
-    this.asignaturasPorDia = Horario[dia] || [];
+  ngOnInit() {
+    // Llama a la función para obtener usuarios alumnos al inicializar el componente
+    this.getUsuariosAlumnos();
   }
 
-  navegarADetalleprofesor() {
-    // Cuando se hace clic en una asignatura, navega a la vista "asignaturaprofesor"
-    this.router.navigateByUrl('/detalleprofesor');
+  async getUsuariosAlumnos() {
+    try {
+      // Obtiene la lista de usuarios alumnos desde Firebase
+      this.usuariosAlumnos = await this.firebaseService.getUsuariosAlumnos();
+    } catch (error) {
+      console.error('Error al obtener usuarios alumnos desde el servicio:', error);
+    }
   }
 }

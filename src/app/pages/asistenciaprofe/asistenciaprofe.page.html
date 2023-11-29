@@ -1,39 +1,32 @@
+<!-- profesor-vista.component.html -->
+
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/profesor"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Listado Alumnos 
+      Listado Alumnos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- Lista de días horizontal -->
-  <ion-list>
-    <ion-list style="display: flex; justify-content: center; width: 100%;">
-      <ion-item *ngFor="let dia of diasSemana" (click)="mostrarAsignaturas(dia)">
-        {{ dia }}
-      </ion-item>
-    </ion-list>
-  </ion-list>
 
-  <!-- Lista de asignaturas -->
-  <ion-list *ngIf="asignaturasPorDia.length > 0">
-    <ion-list-header>
-      {{ diaSeleccionado }}
-    </ion-list-header>
-    <ion-item *ngFor="let asignatura of asignaturasPorDia" (click)="navegarADetalleprofesor()">
-      <ion-label>
-        {{ asignatura.horaInicio }} a {{ asignatura.horaTermino }} <br>
-        {{ asignatura.nombre }}
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-grid>
+    <!-- Cabecera de la tabla -->
+    <ion-row>
+      <ion-col>Nombre</ion-col>
+      <ion-col>Email</ion-col>
+      <!-- Agrega más columnas según la información que desees mostrar -->
+    </ion-row>
 
-  <!-- Mensaje cuando no hay asignaturas -->
-  <div *ngIf="asignaturasPorDia.length === 0">
-    <p>No hay asignaturas disponibles para {{ diaSeleccionado }}.</p>
-  </div>
+    <!-- Cuerpo de la tabla -->
+    <ion-row *ngFor="let usuarioAlumno of usuariosAlumnos">
+      <ion-col>{{ usuarioAlumno.name }}</ion-col>
+      <ion-col>{{ usuarioAlumno.email }}</ion-col>
+      
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

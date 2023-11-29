@@ -150,4 +150,32 @@ export class FirebaseService {
       console.log('La asignatura ya está registrada para este usuario.');
     }
   }
+
+  async getUsuariosAlumnos(): Promise<any[]> {
+    const usuariosCollectionRef = collection(getFirestore(), 'users');
+    
+    // Crea la consulta para obtener usuarios con tipo "alumno"
+    const q = query(usuariosCollectionRef, where('tipoUsuario', '==', 'alumno'));
+  
+    try {
+      // Ejecuta la consulta
+      const querySnapshot = await getDocs(q);
+  
+      // Mapea los resultados a un array, asegurándote de incluir el campo "asignatura"
+      const usuariosAlumnos = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  
+      return usuariosAlumnos;
+    } catch (error) {
+      console.error('Error al obtener usuarios alumnos:', error);
+      throw error;
+    }
+  }
+
+  
 }
+
+
+
