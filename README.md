@@ -15,5 +15,22 @@ Breve descripción de las principales funcionalidades de la aplicación.
 
  imágenes que muestran la interfaz de usuario y las funcionalidades clave de la aplicación.
 
- ![Descripción de la imagen](https://i.imgur.com/sQEHg45.jpeg)
+ ![ Inicio de sesión ](https://i.imgur.com/sQEHg45.jpeg)
+ ![ Registro ](https://i.imgur.com/M71baQz.jpeg)
+ ![ Recuperar contraseña ](https://i.imgur.com/MWzyUxa.jpeg)
+ ![ Vista alumno ](https://i.imgur.com/Yb1cpyg.jpeg)
+ ![ Vista alumno - escanear ](https://i.imgur.com/B0t3Kj3.jpeg)
+ ![ Vista alumno - escanear - camara abierta ](https://i.imgur.com/hAnxDjF.jpeg)
+ ![ Vista alumno - horario ](https://i.imgur.com/stZK9bR.jpeg)
+ ![ Vista profesor ](https://i.imgur.com/3d3ls0B.jpeg)
+ ![ Vista profesor - horario ](https://i.imgur.com/tSCgUB3.jpeg)
+ ![ Vista profesor - generar codigo qr ](https://i.imgur.com/nKxGvgu.jpeg)
+ ![ Vista profesor - qr generado ](https://i.imgur.com/kIq0igX.jpeg)
+ ![ Vista profesor - lista alumnos ](https://i.imgur.com/dcI32UZ.jpeg)
+
+ ## link de descarga y codigo de fuente 
  
+Link de descarga: https://drive.google.com/drive/folders/14QEUkqurU4LhD8L6Uu8PDg-7j2Sb58Jw?usp=sharing
+Link de codigo fuente: https://github.com/panchofmg/Appmobile.git
+ 
+  
